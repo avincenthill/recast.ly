@@ -1,3 +1,7 @@
 // TODO: Render the `App` component to the DOM
 
-ReactDOM.render(<App />, document.getElementById('app'));
+//pass global data to App
+ReactDOM.render(
+  <App data={window.exampleVideoData} />,
+  document.getElementById('app')
+);
