@@ -1,12 +1,16 @@
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      currentVideo: this.props.data[0]
+    };
+    //retain access to setState (and all of this) in callback invocations later
+    this.myCallback = this.myCallback.bind(this);
+  }
+  myCallback(dataFromChild) {
+    this.setState({ currentVideo: dataFromChild });
   }
   render() {
-    console.log(this.props.data);
-    let video = this.props.data[0];
-    console.log(video);
     return (
       <div>
         <nav className="navbar">
@@ -16,10 +20,10 @@ class App extends React.Component {
         </nav>
         <div className="row">
           <div className="col-md-7">
-            <VideoPlayer video={video} />
+            <VideoPlayer video={this.state.currentVideo} />
           </div>
           <div className="col-md-5">
-            <VideoList videos={this.props.data} />
+            <VideoList videos={this.props.data} callback={this.myCallback} />
           </div>
         </div>
       </div>
