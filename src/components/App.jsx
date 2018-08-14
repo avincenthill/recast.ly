@@ -4,6 +4,9 @@ class App extends React.Component {
     this.state = {};
   }
   render() {
+    console.log(this.props.data);
+    let video = this.props.data[0];
+    console.log(video);
     return (
       <div>
         <nav className="navbar">
@@ -13,7 +16,7 @@ class App extends React.Component {
         </nav>
         <div className="row">
           <div className="col-md-7">
-            <VideoPlayer video={this.props.data[0]} />
+            <VideoPlayer video={video} />
           </div>
           <div className="col-md-5">
             <VideoList videos={this.props.data} />
