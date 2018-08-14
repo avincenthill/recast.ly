@@ -1,6 +1,6 @@
 var VideoListEntry = props => {
   const handleClick = e => {
-    // console.log(e);
+    //pass video data to callback on click
     props.callback(props.video);
   };
   return (
