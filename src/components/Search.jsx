@@ -5,24 +5,23 @@ class Search extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
-  fetch(searchString) {
-    //make get request to YouTube API
-    //API key AIzaSyArWjyhMBxcMOWjD5Y4HCqu-_qPSYKoUNs
-    //client ID: recastly-213218
-    $.ajax({
+  fetch(searchString, callback) {
+    /*
+    This request performs a keyword search for videos about the YouTube Data API that include captions.
+    GET {base_URL}/search?part=snippet
+                     &q=YouTube+Data+API
+                     &type=video
+                     &videoCaption=closedCaption
+                     &key={YOUR_API_KEY}
+    */
+
+    return $.ajax({
       type: 'GET',
-      dataType: 'json',
-      cache: false,
-      url: 'https://www.googleapis.com/youtube/v3/search',
-      params: {
-        part: 'snippet',
-        key: 'AIzaSyArWjyhMBxcMOWjD5Y4HCqu-_qPSYKoUNs',
-        q: searchString
-      },
-      timeout: 5000,
-      //parameters reqd by API docs
+      url: `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${searchString}&type=video&videoCaption=closedCaption&key=${
+        window.YOUTUBE_API_KEY
+      }`,
       success: function(response) {
-        console.log(response);
+        return callback(response);
       },
       error: function(response) {
         console.log(response);
@@ -30,12 +29,23 @@ class Search extends React.Component {
     });
   }
   handleClick(e) {
+    // console.log('this', this);
     // console.log(this.state.searchString);
-    this.fetch(this.state.searchString);
+    let obj = this.fetch(this.state.searchString, element => {
+      return element;
+    });
+    console.log(obj);
+    this.props.getData(obj);
   }
   handleChange(e) {
     this.setState({ searchString: e.target.value });
   }
+  // componentDidMount() {
+  //   let obj = this.fetch('spongebob', element => {
+  //     return element;
+  //   });
+  //   this.props.getData(obj.responseJSON.items);
+  // }
   render() {
     return (
       <div className="search-bar form-inline">

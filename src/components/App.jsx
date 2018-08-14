@@ -2,25 +2,37 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentVideo: this.props.data[0],
-      searchString: null
+      currentVideo: exampleVideoData[0],
+      searchString: null,
+      data: exampleVideoData
     };
     //retain access to setState (and all of this) in callback invocations later
     this.updateCurrentVideo = this.updateCurrentVideo.bind(this);
     this.updateSearchString = this.updateSearchString.bind(this);
+    this.getData = this.getData.bind(this);
   }
+  // componentDidUpdate() {
+  //   console.log(this.state.data);
+  //   this.setState({ currentVideo: this.state.data.responseJSON.items[0] });
+  // }
   updateCurrentVideo(dataFromChild) {
     this.setState({ currentVideo: dataFromChild });
   }
   updateSearchString(dataFromChild) {
     this.setState({ searchString: dataFromChild });
   }
+  getData(dataFromChild) {
+    this.setState({ data: dataFromChild });
+  }
   render() {
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <Search updateSearchString={this.updateSearchString} />
+            <Search
+              updateSearchString={this.updateSearchString}
+              getData={this.getData}
+            />
           </div>
         </nav>
         <div className="row">
@@ -29,7 +41,7 @@ class App extends React.Component {
           </div>
           <div className="col-md-5">
             <VideoList
-              videos={this.props.data}
+              videos={this.state.data}
               callback={this.updateCurrentVideo}
             />
           </div>
