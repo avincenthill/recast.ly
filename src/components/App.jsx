@@ -6,33 +6,34 @@ class App extends React.Component {
       searchString: null,
       data: exampleVideoData
     };
-    //retain access to setState (and all of this) in callback invocations later
-    this.updateCurrentVideo = this.updateCurrentVideo.bind(this);
-    this.updateSearchString = this.updateSearchString.bind(this);
-    this.getData = this.getData.bind(this);
   }
-  // componentDidUpdate() {
-  //   console.log(this.state.data);
-  //   this.setState({ currentVideo: this.state.data.responseJSON.items[0] });
-  // }
+
+  setYouTubeData(options) {
+    this.props.searchYouTube(options, element => {
+      this.setState({
+        currentVideo: element.items[0],
+        data: element.items
+      });
+    });
+  }
+
   updateCurrentVideo(dataFromChild) {
     this.setState({ currentVideo: dataFromChild });
   }
-  updateSearchString(dataFromChild) {
-    this.setState({ searchString: dataFromChild });
+
+  componentDidMount() {
+    const options = {
+      searchString: 'spongebob'
+    };
+    this.setYouTubeData(options);
   }
-  getData(dataFromChild) {
-    this.setState({ data: dataFromChild });
-  }
+
   render() {
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <Search
-              updateSearchString={this.updateSearchString}
-              getData={this.getData}
-            />
+            <Search setYouTubeData={this.setYouTubeData.bind(this)} />
           </div>
         </nav>
         <div className="row">
@@ -42,7 +43,7 @@ class App extends React.Component {
           <div className="col-md-5">
             <VideoList
               videos={this.state.data}
-              callback={this.updateCurrentVideo}
+              callback={this.updateCurrentVideo.bind(this)}
             />
           </div>
         </div>

@@ -2,6 +2,6 @@
 
 //pass global data to App
 ReactDOM.render(
-  <App data={window.exampleVideoData} />,
+  <App data={window.exampleVideoData} searchYouTube={window.searchYouTube} />,
   document.getElementById('app')
 );

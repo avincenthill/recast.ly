@@ -1,6 +1,10 @@
 var VideoList = props => {
   const videos = props.videos.map(video => (
-    <VideoListEntry video={video} callback={props.callback} />
+    <VideoListEntry
+      video={video}
+      callback={props.callback}
+      key={video.id.videoId}
+    />
   ));
   return <div className="video-list">{videos}</div>;
 };
